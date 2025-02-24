@@ -22,4 +22,4 @@ SETUVAR _fish_abbr_kns:kubectl\x20config\x20set\x2dcontext\x20\x2d\x2dcurrent\x2
 SETUVAR _fish_abbr_vim:nvim
 SETUVAR fish_greeting:\x1d
 SETUVAR fish_key_bindings:fish_default_key_bindings
-SETUVAR fish_user_paths:/home/linuxbrew/\x2elinuxbrew/sbin\x1e/home/linuxbrew/\x2elinuxbrew/bin
+SETUVAR fish_user_paths:/home/cpressland/\x2elocal/bin\x1e/home/linuxbrew/\x2elinuxbrew/sbin\x1e/home/linuxbrew/\x2elinuxbrew/bin
