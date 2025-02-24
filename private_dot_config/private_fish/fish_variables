@@ -1,0 +1,25 @@
+# This file contains fish universal variable definitions.
+# VERSION: 3.0
+SETUVAR __fish_initialized:3400
+SETUVAR _fish_abbr_ga:git\x20add
+SETUVAR _fish_abbr_gb:git\x20branch
+SETUVAR _fish_abbr_gc:git\x20commit
+SETUVAR _fish_abbr_gcd:git\x20checkout\x20develop
+SETUVAR _fish_abbr_gcm:git\x20checkout\x20master
+SETUVAR _fish_abbr_gco:git\x20checkout
+SETUVAR _fish_abbr_gd:git\x20diff
+SETUVAR _fish_abbr_gdc:git\x20diff\x20\x2d\x2dcached
+SETUVAR _fish_abbr_gl:git\x20pull
+SETUVAR _fish_abbr_gp:git\x20push
+SETUVAR _fish_abbr_gst:git\x20status
+SETUVAR _fish_abbr_k:kubectl
+SETUVAR _fish_abbr_kccc:kubectl\x20config\x20current\x2dcontext
+SETUVAR _fish_abbr_kcuc:kubectl\x20config\x20use\x2dcontext
+SETUVAR _fish_abbr_kgd:kubectl\x20get\x20deployments
+SETUVAR _fish_abbr_kgp:kubectl\x20get\x20pods
+SETUVAR _fish_abbr_kgs:kubectl\x20get\x20services
+SETUVAR _fish_abbr_kns:kubectl\x20config\x20set\x2dcontext\x20\x2d\x2dcurrent\x20\x2d\x2dnamespace
+SETUVAR _fish_abbr_vim:nvim
+SETUVAR fish_greeting:\x1d
+SETUVAR fish_key_bindings:fish_default_key_bindings
+SETUVAR fish_user_paths:/home/linuxbrew/\x2elinuxbrew/sbin\x1e/home/linuxbrew/\x2elinuxbrew/bin

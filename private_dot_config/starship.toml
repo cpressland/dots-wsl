@@ -1,0 +1,28 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+format = "($git_branch$python$rust\n)$directory$character"
+right_format = "$git_status$git_state"
+
+[character]
+success_symbol = '[\$](bold green)'
+error_symbol = '[\$](bold red)'
+
+[directory]
+use_os_path_sep = false
+
+[package]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[git_branch]
+format = '[$branch ]($style)'
+truncation_length = 20
+
+[git_status]
+format = '[$all_status$ahead_behind]($style)'
+
+[python]
+format = '[python ${version} (\(${virtualenv}\) )]($style)'

@@ -1,0 +1,10 @@
+[user]
+    name = Chris Pressland
+    email = mail@cpressland.io
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIICGANMx1jWscPLDH0mT+9CeGvT7BDrja7lVMtT+Ki08
+[includeIf "hasconfig:remote.*.url:git@ssh.dev.azure.com:v3/**"]
+    path = ~/.gitconfig-azure
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
