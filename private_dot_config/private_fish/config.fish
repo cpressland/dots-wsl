@@ -44,6 +44,10 @@ if status is-interactive
         flux completion fish | source
     end
 
+    function pbcopy
+	tee <&0 | clip.exe
+    end
+
     if type -q starship
         function starship_transient_prompt_func
             starship module character
