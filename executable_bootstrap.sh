@@ -94,6 +94,17 @@ function install_trivy() {
         | tar xz -C ~/.local/bin trivy
 }
 
+function install_kubelogin() {
+    tmpdir=$(mktemp -d)
+    curl -sL "$(curl -s https://api.github.com/repos/Azure/kubelogin/releases/latest \
+        | jq -r '.assets[] | select(.name | test("linux-amd64.zip$")) | .browser_download_url')" \
+        -o "$tmpdir/kubelogin.zip"
+    unzip -q "$tmpdir/kubelogin.zip" -d "$tmpdir"
+    mv "$tmpdir/bin/linux_amd64/kubelogin" ~/.local/bin/
+    chmod +x ~/.local/bin/kubelogin
+    rm -rf "$tmpdir"
+}
+
 function install_fish() {
     sudo chsh -s /usr/sbin/fish cpressland
 }
@@ -111,4 +122,5 @@ install_kustomize
 install_trivy
 install_helm
 install_bat
+install_kubelogin
 install_fish
