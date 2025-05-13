@@ -58,12 +58,12 @@ end
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
   config.wsl_domains = {
     {
-      name = 'WSL:Ubuntu',
-      distribution = 'Ubuntu',
+      name = 'WSL:FedoraLinux-42',
+      distribution = 'FedoraLinux-42',
       default_cwd = "/home/cpressland",
     },
   }
-  config.default_domain = 'WSL:Debian'
+  config.default_domain = 'WSL:FedoraLinux-42'
 end
 
 return config
