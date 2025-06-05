@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+function log() {
+    echo -e "$(date -u) - $1"
+}
+
+function install_github_cli() {
+    sudo dnf install dnf5-plugins
+    sudo dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo
+    sudo dnf install gh --repo gh-cli
+}
+
 function install_essentials() {
     mkdir -p ~/.local/bin
     sudo dnf update -y
@@ -12,6 +22,7 @@ function install_essentials() {
         zstd \
         curl \
         jq \
+        yq \
         ncurses \
         git \
         just \
@@ -23,82 +34,97 @@ function install_essentials() {
 }
 
 function install_opentofu() {
-    curl -sL $(curl -s https://api.github.com/repos/opentofu/opentofu/releases/latest \
-        | jq -r '.assets[] | select(.name | test("_linux_amd64.tar.gz$")) | .browser_download_url') \
+    gh release download --repo opentofu/opentofu --pattern '*_linux_amd64.tar.gz' -O - \
         | tar xz -C ~/.local/bin tofu
 }
 
+function install_terraform() {
+    log "Installing Terraform"
+    tmpdir=$(mktemp -d)
+    terraform_version=$(gh release view --repo hashicorp/terraform --json tagName --jq .tagName)
+    curl -sL "https://releases.hashicorp.com/terraform/${terraform_version:1}/terraform_${terraform_version:1}_linux_amd64.zip" \
+        -o "${tmpdir}/terraform.zip"
+    unzip -q "${tmpdir}/terraform.zip" -d "${tmpdir}"
+    mv "${tmpdir}/terraform" ~/.local/bin/
+    rm -rf "$tmpdir"
+    log "Installed Terraform $terraform_version"
+}
+
 function install_bat() {
-    curl -sL $(curl -s https://api.github.com/repos/sharkdp/bat/releases/latest \
-        | jq -r '.assets[] | select(.name | test("x86_64-unknown-linux-musl.tar.gz$")) | .browser_download_url') \
+    log "Installing Bat"
+    gh release download --repo sharkdp/bat --pattern '*_x86_64-unknown-linux-gnu.tar.gz' -O - \
         | tar xz -C ~/.local/bin --strip-components=1 bat-v*/bat
+    log "Installed Bat"
 }
 
 function install_kubectl() {
-    curl -sL "https://dl.k8s.io/$(curl -s https://api.github.com/repos/kubernetes/kubernetes/releases/latest \
-        | jq -r .tag_name)/kubernetes-client-linux-amd64.tar.gz" \
+    log "Installing Kubectl"
+    kubectl_version=$(gh release view --repo kubernetes/kubernetes --json tagName --jq .tagName)
+    curl -sL "https://dl.k8s.io/${kubectl_version}/kubernetes-client-linux-amd64.tar.gz" \
         | tar xz -C ~/.local/bin --strip-components=3 kubernetes/client/bin/kubectl
+    log "Installed Kubectl $kubectl_version"
 }
 
 function install_helm() {
-    curl -sL "https://get.helm.sh/helm-$(curl -s https://api.github.com/repos/helm/helm/releases/latest \
-        | jq -r .tag_name)-linux-amd64.tar.gz" \
+    log "Installing Helm"
+    helm_version=$(gh release view --repo helm/helm --json tagName --jq .tagName)
+    curl -sL "https://get.helm.sh/helm-${helm_version}-linux-amd64.tar.gz" \
         | tar xz -C ~/.local/bin --strip-components=1 linux-amd64/helm
+    log "Installed Helm $helm_version"
 }
 
 function install_starship() {
-    curl -sL $(curl -s https://api.github.com/repos/starship/starship/releases/latest \
-        | jq -r '.assets[] | select(.name | test("-x86_64-unknown-linux-gnu.tar.gz$")) | .browser_download_url') \
+    log "Installing Starship"
+    gh release download --repo starship/starship --pattern '*-x86_64-unknown-linux-gnu.tar.gz' -O - \
         | tar xz -C ~/.local/bin starship
 }
 
 function install_uv() {
-    curl -sL $(curl -s https://api.github.com/repos/astral-sh/uv/releases/latest \
-        | jq -r '.assets[] | select(.name | test("x86_64-unknown-linux-gnu.tar.gz$")) | .browser_download_url') \
+    log "Installing uv"
+    gh release download --repo astral-sh/uv --pattern '*x86_64-unknown-linux-gnu.tar.gz' -O - \
         | tar xz -C ~/.local/bin --strip-components=1 uv-x86_64-unknown-linux-gnu/uvx uv-x86_64-unknown-linux-gnu/uv
 }
 
 function install_flux() {
-    curl -sL $(curl -s https://api.github.com/repos/fluxcd/flux2/releases/latest \
-        | jq -r '.assets[] | select(.name | test("linux_amd64.tar.gz$")) | .browser_download_url') \
+    log "Installing Flux"
+    gh release download --repo fluxcd/flux2 --pattern '*_linux_amd64.tar.gz' -O - \
         | tar xz -C ~/.local/bin flux
 }
 
 function install_chezmoi() {
-    curl -sL $(curl -s https://api.github.com/repos/twpayne/chezmoi/releases/latest \
-        | jq -r '.assets[] | select(.name | test("-linux-amd64$")) | .browser_download_url') -o ~/.local/bin/chezmoi; \
-        chmod +x ~/.local/bin/chezmoi
+    log "Installing Chezmoi"
+    gh release download --repo twpayne/chezmoi --pattern '*-linux-amd64' --clobber -O ~/.local/bin/chezmoi \
+        | chmod +x ~/.local/bin/chezmoi
 }
 
 function install_eza() {
-    curl -sL $(curl -s https://api.github.com/repos/eza-community/eza/releases/latest \
-        | jq -r '.assets[] | select(.name | test("x86_64-unknown-linux-gnu.tar.gz")) | .browser_download_url') \
+    log "Installing Eza"
+    gh release download --repo eza-community/eza --pattern '*x86_64-unknown-linux-gnu.tar.gz' -O - \
         | tar xz -C ~/.local/bin ./eza
 }
 
 function install_kubeseal() {
-    curl -sL $(curl -s https://api.github.com/repos/bitnami-labs/sealed-secrets/releases/latest \
-        | jq -r '.assets[] | select(.name | test("-linux-amd64.tar.gz$")) | .browser_download_url') \
+    log "Installing Kubeseal"
+    gh release download --repo bitnami-labs/sealed-secrets --pattern '*-linux-amd64.tar.gz' -O - \
         | tar xz -C ~/.local/bin kubeseal
 }
 
 function install_kustomize() {
-    curl -sL $(curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest \
-        | jq -r '.assets[] | select(.name | test("linux_amd64.tar.gz$")) | .browser_download_url') \
+    log "Installing Kustomize"
+    gh release download --repo kubernetes-sigs/kustomize --pattern '*_linux_amd64.tar.gz' -O - \
         | tar xz -C ~/.local/bin kustomize
 }
 
 function install_trivy() {
-    curl -sL $(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest \
-        | jq -r '.assets[] | select(.name | test("trivy_.*_Linux-64bit.tar.gz$")) | .browser_download_url') \
+    log "Installing Trivy"
+    gh release download --repo aquasecurity/trivy --pattern '*_Linux-64bit.tar.gz' -O - \
         | tar xz -C ~/.local/bin trivy
 }
 
 function install_kubelogin() {
+    log "Installing Kubelogin"
     tmpdir=$(mktemp -d)
-    curl -sL "$(curl -s https://api.github.com/repos/Azure/kubelogin/releases/latest \
-        | jq -r '.assets[] | select(.name | test("linux-amd64.zip$")) | .browser_download_url')" \
-        -o "$tmpdir/kubelogin.zip"
+    gh release download --repo Azure/kubelogin --pattern '*-linux-amd64.zip' -O "$tmpdir/kubelogin.zip"
     unzip -q "$tmpdir/kubelogin.zip" -d "$tmpdir"
     mv "$tmpdir/bin/linux_amd64/kubelogin" ~/.local/bin/
     chmod +x ~/.local/bin/kubelogin
@@ -109,8 +135,16 @@ function install_fish() {
     sudo chsh -s /usr/sbin/fish cpressland
 }
 
+if ! command -v gh &> /dev/null; then
+    echo "GitHub CLI not found. Installing..."
+    install_github_cli
+    echo "Install Complete, re-run script after logging in."
+    exit 0
+fi
+
 install_essentials
 install_opentofu
+install_terraform
 install_kubectl
 install_starship
 install_uv
@@ -123,4 +157,3 @@ install_trivy
 install_helm
 install_bat
 install_kubelogin
-install_fish
