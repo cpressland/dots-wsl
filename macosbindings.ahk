@@ -4,6 +4,9 @@
 ^a:: Send("{Home}")                      ; CTRL + A = Home
 ^e:: Send("{end}")                       ; CTRL + E = End
 
+WheelUp:: Send("{WheelDown}")            ; Reverse mouse wheel direction
+WheelDown:: Send("{WheelUp}")            ; Reverse mouse wheel direction
+
 #InputLevel 0
 #a:: Send("^a")                          ; Win + A = Ctrl + A
 #s:: Send("^s")                          ; Win + S = Ctrl + S
