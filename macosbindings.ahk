@@ -37,4 +37,5 @@
 
 #HotIf WinActive("ahk_exe wezterm-gui.exe")
 #t:: Send("^+t")  ; Win + T = Ctrl + Shift + T in WezTerm
+#c:: Send("^+c")  ; Win + C = Ctrl + Shift + C in WezTerm
 #HotIf
