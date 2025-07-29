@@ -41,7 +41,7 @@ function install_opentofu() {
 function install_terraform() {
     log "Installing Terraform"
     tmpdir=$(mktemp -d)
-    terraform_version=$(gh release view --repo hashicorp/terraform --json tagName --jq .tagName)
+    terraform_version=$(gh release list --repo hashicorp/terraform --json tagName --jq '.[] | select(.tagName | test("^v1\\.(10|[0-9])\\.[0-9]+$")) | .tagName' | head -1)
     curl -sL "https://releases.hashicorp.com/terraform/${terraform_version:1}/terraform_${terraform_version:1}_linux_amd64.zip" \
         -o "${tmpdir}/terraform.zip"
     unzip -q "${tmpdir}/terraform.zip" -d "${tmpdir}"
@@ -52,7 +52,7 @@ function install_terraform() {
 
 function install_bat() {
     log "Installing Bat"
-    gh release download --repo sharkdp/bat --pattern '*_x86_64-unknown-linux-gnu.tar.gz' -O - \
+    gh release download --repo sharkdp/bat --pattern '*x86_64-unknown-linux-gnu.tar.gz' -O - \
         | tar xz -C ~/.local/bin --strip-components=1 bat-v*/bat
     log "Installed Bat"
 }

@@ -8,3 +8,5 @@
 	autoSetupRemote = true
 [pull]
 	rebase = true
+[http]
+	cookiefile = /home/cpressland/.gitcookies

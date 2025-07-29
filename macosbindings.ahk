@@ -6,6 +6,7 @@
 
 WheelUp:: Send("{WheelDown}")            ; Reverse mouse wheel direction
 WheelDown:: Send("{WheelUp}")            ; Reverse mouse wheel direction
+A_MaxHotkeysPerInterval := 2000          ; Increase max hotkeys per interval to mitigate warning on mouse scroll
 
 #InputLevel 0
 #a:: Send("^a")                          ; Win + A = Ctrl + A
@@ -41,4 +42,5 @@ WheelDown:: Send("{WheelUp}")            ; Reverse mouse wheel direction
 #HotIf WinActive("ahk_exe wezterm-gui.exe")
 #t:: Send("^+t")  ; Win + T = Ctrl + Shift + T in WezTerm
 #c:: Send("^+c")  ; Win + C = Ctrl + Shift + C in WezTerm
+#v:: Send("^+v")  ; Win + C = Ctrl + Shift + C in WezTerm
 #HotIf

@@ -13,6 +13,16 @@ require("nvim-tree").setup()
 -- bind t to open / close nvim-tree
 vim.keymap.set('n', 't', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 
+-- window navigation with ctrl+hjkl
+vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
+
+-- buffer navigation with tab/shift+tab
+vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<S-Tab>', ':bprev<CR>', { noremap = true, silent = true })
+
 -- close nvim if tree is the only remaining buffer
 vim.api.nvim_create_autocmd("BufEnter", {
   group = vim.api.nvim_create_augroup("NvimTreeAutoClose", { clear = true }),
